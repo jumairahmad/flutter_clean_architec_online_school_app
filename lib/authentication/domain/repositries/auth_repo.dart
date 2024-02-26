@@ -1,12 +1,14 @@
 import 'package:school_course_app_1/authentication/domain/entities/user.dart';
 
+import 'package:school_course_app_1/core/utils/typedef.dart';
+
 abstract class AuthRepo {
   const AuthRepo();
 
-  Future<void> createUser(
+  ResultVoid createUser(
       {required String name,
       required String avatar,
       required String createdAt});
 
-  Future<List<User>> getUsers();
+  ResultFuture<List<User>> getUsers();
 }
