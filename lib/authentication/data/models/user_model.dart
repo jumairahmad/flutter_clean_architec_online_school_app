@@ -7,3 +7,5 @@ class UserModel extends User {
       required super.avatar,
       required super.createdAt});
 }
+
+class userstatus {}
