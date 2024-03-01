@@ -32,9 +32,9 @@ class UserModel extends User {
     String? name,
   }) {
     return UserModel(
-        id: this.id,
-        name: this.name,
-        avatar: this.avatar,
-        createdAt: this.createdAt);
+        id: id ?? this.id,
+        name: name ?? this.name,
+        avatar: avatar ?? this.avatar,
+        createdAt: createdAt ?? this.createdAt);
   }
 }
