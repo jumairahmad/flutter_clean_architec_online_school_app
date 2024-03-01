@@ -15,10 +15,11 @@ class UserModel extends User {
 
   UserModel.fromMap(DataMap map)
       : this(
-            avatar: map['avatar'] as String,
-            id: map['id'] as int,
-            createdAt: ['createdAt'] as String,
-            name: ['name'] as String);
+          avatar: map['avatar'] as String,
+          id: map['id'] as String,
+          name: map['name'] as String,
+          createdAt: map['createdAt'] as String,
+        );
 
   DataMap toMap() =>
       {'id': id, 'avatar': avatar, 'createdAt': createdAt, 'name': name};
@@ -27,7 +28,7 @@ class UserModel extends User {
 
   UserModel copyWith({
     String? avatar,
-    int? id,
+    String? id,
     String? createdAt,
     String? name,
   }) {
@@ -37,4 +38,11 @@ class UserModel extends User {
         avatar: avatar ?? this.avatar,
         createdAt: createdAt ?? this.createdAt);
   }
+
+  const UserModel.empty()
+      : this(
+            id: "1",
+            createdAt: "empty_ct",
+            name: "empty_na",
+            avatar: "empty_at");
 }
