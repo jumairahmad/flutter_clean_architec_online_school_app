@@ -17,7 +17,7 @@ void main() {
   });
 
   const tException =
-      ServerException(message: 'Unknown error occured', statusCode: 500);
+      APIException(message: 'Unknown error occured', statusCode: 500);
 
   group('CreateUser', () {
     const createdAt = 'whatever';
@@ -54,7 +54,7 @@ void main() {
 
       // act
 
-      final result = authRepoImplementation.createUser(
+      final result = await authRepoImplementation.createUser(
           name: name, avatar: avatar, createdAt: createdAt);
 
       // assert
