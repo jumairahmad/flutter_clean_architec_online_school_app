@@ -11,6 +11,7 @@ class MockClient extends Mock implements http.Client {}
 void main() {
   late http.Client client;
   late AuthRemoteDataSource remoteDataSource;
+  registerFallbackValue(Uri());
 
   setUp(() {
     client = MockClient();
@@ -28,9 +29,7 @@ void main() {
 
       final methodCall = remoteDataSource.createUser;
 
-      expect(
-          () => methodCall(
-              createdAt: 'createdAt', name: 'name', avatar: 'avatar'),
+      expect(methodCall(createdAt: 'createdAt', name: 'name', avatar: 'avatar'),
           completes);
 
       verify(() => client.post(
@@ -42,9 +41,11 @@ void main() {
             }),
           )).called(1);
 
-      verifyNoMoreInteractions(remoteDataSource);
+      verifyNoMoreInteractions(client);
     });
 
     //second test
+
+    
   });
 }

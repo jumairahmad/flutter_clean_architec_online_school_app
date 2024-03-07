@@ -19,8 +19,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       {required String name,
       required String avatar,
       required String createdAt}) async {
-    // TODO: implement createUser
-    throw UnimplementedError();
+    
+    
   }
 
   @override
