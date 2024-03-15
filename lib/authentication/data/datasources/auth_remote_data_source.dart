@@ -4,6 +4,7 @@ import 'package:school_course_app_1/authentication/data/models/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:school_course_app_1/core/errors/exceptions.dart';
 import 'package:school_course_app_1/core/utils/constants.dart';
+import 'package:school_course_app_1/core/utils/typedef.dart';
 
 abstract class AuthRemoteDataSource {
   Future<void> createUser(
@@ -53,6 +54,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw APIException(
             message: response.body, statusCode: response.statusCode);
       }
+
+      return List<DataMap>.from(jsonDecode(response.body) as List)
+          .map((userData) => UserModel.fromMap(userData))
+          .toList();
     } on APIException {
       rethrow;
     } catch (e) {

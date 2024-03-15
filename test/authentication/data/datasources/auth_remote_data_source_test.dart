@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:http/http.dart' as http;
 import 'package:school_course_app_1/authentication/data/datasources/auth_remote_data_source.dart';
+import 'package:school_course_app_1/authentication/data/models/user_model.dart';
 import 'package:school_course_app_1/core/errors/exceptions.dart';
 import 'package:school_course_app_1/core/utils/constants.dart';
 
@@ -76,9 +77,10 @@ void main() {
 //lets write tests for getusers
 
   group('getusers', () {
+    final tUsers = [UserModel.empty()];
     test('should return a list of Users ', () async {
       when(() => client.get(any())).thenAnswer(
-          (_) async => http.Response('geting users successfully', 200));
+          (_) async => http.Response(jsonEncode([tUsers.first.toMap()]), 200));
 
       final methodcall = remoteDataSource.getUsers;
 
