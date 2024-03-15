@@ -82,9 +82,9 @@ void main() {
       when(() => client.get(any())).thenAnswer(
           (_) async => http.Response(jsonEncode([tUsers.first.toMap()]), 200));
 
-      final methodcall = remoteDataSource.getUsers;
+      final result = await remoteDataSource.getUsers();
 
-      expect(methodcall(), completes);
+      expect(result, equals(tUsers));
 
       verify(
         () => client.get(Uri.parse('$kBaseUrl$kGetuserEndPoint')),
