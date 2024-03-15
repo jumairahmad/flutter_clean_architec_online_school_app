@@ -44,7 +44,19 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<List<UserModel>> getUsers() async {
-    // TODO: implement getUsers
-    throw UnimplementedError();
+    try {
+      final response = await _client.get(
+        Uri.parse('$kBaseUrl$kGetuserEndPoint'),
+      );
+
+      if (response.statusCode != 200 && response.statusCode != 201) {
+        throw APIException(
+            message: response.body, statusCode: response.statusCode);
+      }
+    } on APIException {
+      rethrow;
+    } catch (e) {
+      throw APIException(message: e.toString(), statusCode: 505);
+    }
   }
 }

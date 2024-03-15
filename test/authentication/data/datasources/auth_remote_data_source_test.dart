@@ -72,4 +72,50 @@ void main() {
       verifyNoMoreInteractions(client);
     });
   });
+
+//lets write tests for getusers
+
+  group('getusers', () {
+    test('should return a list of Users ', () async {
+      when(() => client.get(any())).thenAnswer(
+          (_) async => http.Response('geting users successfully', 200));
+
+      final methodcall = remoteDataSource.getUsers;
+
+      expect(methodcall(), completes);
+
+      verify(
+        () => client.get(Uri.parse('$kBaseUrl$kGetuserEndPoint')),
+      ).called(1);
+
+      verifyNoMoreInteractions(client);
+    });
+
+    //second test for server failure for chekcing if any exception occured orr not
+
+    test('should return APIFailure', () async {
+      when(
+        () => client.get(any()),
+      ).thenAnswer(
+        (_) async => http.Response('error getting users', 400),
+      );
+
+      // next step
+      final methodcall = remoteDataSource.getUsers;
+
+      expect(
+        () async => methodcall(),
+        throwsA(
+          const APIException(message: 'error getting users', statusCode: 400),
+        ),
+      );
+
+      //last step
+      verify(
+        () => client.get(Uri.parse('$kBaseUrl$kGetuserEndPoint')),
+      ).called(1);
+
+      verifyNoMoreInteractions(client);
+    });
+  });
 }
