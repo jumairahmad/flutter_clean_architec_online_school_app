@@ -7,6 +7,7 @@ class Failure extends Equatable {
   final String message;
   final int code;
 
+  String get errorMessage => '$code $message';
   @override
   List<Object?> get props => [message, code];
 }
