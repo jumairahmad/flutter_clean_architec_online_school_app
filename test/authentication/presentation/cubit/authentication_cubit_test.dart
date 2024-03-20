@@ -45,7 +45,7 @@ void main() {
   group(
     'createuser',
     () {
-      blocTest(
+      blocTest<AuthenticationCubit, AuthenticationState>(
         'should emit [CreatingUser, UserCreated] on success',
         build: () {
           when(() => createUser(any())).thenAnswer(
@@ -94,7 +94,8 @@ void main() {
   group(
     'getusers',
     () {
-      blocTest('should emit [GettingUsers, UsersLoaded] on success ',
+      blocTest<AuthenticationCubit, AuthenticationState>(
+          'should emit [GettingUsers, UsersLoaded] on success ',
           build: () {
             when(() => getUsers()).thenAnswer((_) async => const Right(tUsers));
 
