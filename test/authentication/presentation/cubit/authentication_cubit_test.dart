@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:school_course_app_1/authentication/domain/entities/user.dart';
 import 'package:school_course_app_1/authentication/domain/usecases/createUser.dart';
 import 'package:school_course_app_1/authentication/domain/usecases/get_users.dart';
 import 'package:school_course_app_1/authentication/presentation/cubit/authentication_cubit.dart';
@@ -19,9 +20,10 @@ void main() {
   late AuthenticationCubit cubit;
   const tCreateUserParam = CreateUserParams.empty();
   const tApiFailure = ApiFailure(message: 'message', code: 400);
-
+  const tUsers = [User.empty()];
   registerFallbackValue(tCreateUserParam);
   registerFallbackValue(tApiFailure);
+  registerFallbackValue(tUsers);
   setUp(() {
     getUsers = MockGetUsers();
     createUser = MockCreateUsers();
@@ -39,6 +41,7 @@ void main() {
     expect(cubit.state, const AuthenticationInitial());
   });
 
+  // for testing cubit of create user
   group(
     'createuser',
     () {
@@ -81,6 +84,43 @@ void main() {
         verify: (_) {
           verify(() => createUser(tCreateUserParam)).called(1);
           verifyNoMoreInteractions(createUser);
+        },
+      );
+    },
+  );
+
+// for testing cubit of getting users
+
+  group(
+    'getusers',
+    () {
+      blocTest('should emit [GettingUsers, UsersLoaded] on success ',
+          build: () {
+            when(() => getUsers()).thenAnswer((_) async => const Right(tUsers));
+
+            return cubit;
+          },
+          act: (cubit) => cubit.getUsers(),
+          expect: () => const [GettingUsers(), UsersLoaded(tUsers)],
+          verify: (_) {
+            verify(() => getUsers()).called(1);
+            verifyNoMoreInteractions(getUsers);
+          });
+
+      blocTest(
+        'should emit [APiFailure] on failure',
+        build: () {
+          when(() => getUsers()).thenAnswer(
+            (_) async => const Left(tApiFailure),
+          );
+          return cubit;
+        },
+        act: (cubit) => cubit.getUsers(),
+        expect: () =>
+            [const GettingUsers(), AuthenticationErr(tApiFailure.errorMessage)],
+        verify: (_) {
+          verify(() => getUsers()).called(1);
+          verifyNoMoreInteractions(getUsers);
         },
       );
     },
