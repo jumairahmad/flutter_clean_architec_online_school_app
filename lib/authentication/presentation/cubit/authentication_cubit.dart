@@ -33,7 +33,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       (failure) => emit(
         AuthenticationErr(failure.errorMessage),
       ),
-      (r) => const UserCreated(),
+      (r) => emit(const UserCreated()),
     );
   }
 
