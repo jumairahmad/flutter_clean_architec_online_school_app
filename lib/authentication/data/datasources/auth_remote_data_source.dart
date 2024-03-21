@@ -31,6 +31,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         body: jsonEncode(
           {'createdAt': createdAt, 'name': name, 'avatar': avatar},
         ),
+        headers: {
+          'content-type': 'application/json',
+        },
       );
       if (response.statusCode != 200 && response.statusCode != 201) {
         throw APIException(
